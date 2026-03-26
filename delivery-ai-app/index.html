@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwiftDrop — AI Delivery</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- SIDEBAR NAV -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">SwiftDrop</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="home" onclick="showPage('home',this)">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="order" onclick="showPage('order',this)">
+        <span class="nav-icon">📦</span> New Order
+      </a>
+      <a href="#" class="nav-item" data-page="track" onclick="showPage('track',this)">
+        <span class="nav-icon">📍</span> Track Order
+      </a>
+      <a href="#" class="nav-item" data-page="history" onclick="showPage('history',this)">
+        <span class="nav-icon">🗂️</span> History
+      </a>
+      <a href="#" class="nav-item" data-page="ai" onclick="showPage('ai',this)">
+        <span class="nav-icon">🤖</span> AI Assistant
+      </a>
+      <a href="#" class="nav-item" data-page="profile" onclick="showPage('profile',this)">
+        <span class="nav-icon">👤</span> Profile
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar">JD</div>
+        <div>
+          <div class="user-name">John Doe</div>
+          <div class="user-role">Premium Member</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="pageTitle">Dashboard</div>
+      <div class="topbar-right">
+        <div class="notif-bell" onclick="toggleNotif()">
+          🔔 <span class="badge" id="notifBadge">3</span>
+        </div>
+        <div class="notif-panel hidden" id="notifPanel">
+          <div class="notif-item">📦 Order #SD-1042 delivered!</div>
+          <div class="notif-item">🚚 Driver assigned to #SD-1043</div>
+          <div class="notif-item">⭐ Rate your last delivery</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE: HOME ===== -->
+    <div class="page active" id="page-home">
+      <div class="page-inner">
+        <div class="hero-banner">
+          <div class="hero-text">
+            <h1>Good morning, John 👋</h1>
+            <p>Track, order & manage all your deliveries powered by AI.</p>
+          </div>
+          <div class="hero-art">⚡</div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card" style="--accent:#f97316">
+            <div class="stat-icon">📦</div>
+            <div class="stat-num" id="statTotal">0</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+          <div class="stat-card" style="--accent:#22c55e">
+            <div class="stat-icon">✅</div>
+            <div class="stat-num" id="statDelivered">0</div>
+            <div class="stat-label">Delivered</div>
+          </div>
+          <div class="stat-card" style="--accent:#3b82f6">
+            <div class="stat-icon">🚚</div>
+            <div class="stat-num" id="statActive">0</div>
+            <div class="stat-label">In Transit</div>
+          </div>
+          <div class="stat-card" style="--accent:#a855f7">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-num" id="statRating">4.8</div>
+            <div class="stat-label">Avg Rating</div>
+          </div>
+        </div>
+
+        <div class="section-title">Active Deliveries</div>
+        <div id="activeDeliveriesList" class="delivery-list"></div>
+
+        <div class="section-title" style="margin-top:2rem">Quick Actions</div>
+        <div class="quick-actions">
+          <button class="qa-btn" onclick="showPage('order', document.querySelector('[data-page=order]'))">
+            ➕ Place New Order
+          </button>
+          <button class="qa-btn" onclick="showPage('track', document.querySelector('[data-page=track]'))">
+            📍 Track Package
+          </button>
+          <button class="qa-btn" onclick="showPage('ai', document.querySelector('[data-page=ai]'))">
+            🤖 Ask AI
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: ORDER ===== -->
+    <div class="page" id="page-order">
+      <div class="page-inner">
+        <h2 class="page-h2">Place New Order</h2>
+        <div class="form-card">
+          <div class="form-section-title">📦 Package Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Package Name</label>
+              <input type="text" id="pkgName" placeholder="e.g. Laptop, Clothes..." />
+            </div>
+            <div class="form-group">
+              <label>Weight (kg)</label>
+              <input type="number" id="pkgWeight" placeholder="e.g. 2.5" min="0.1" step="0.1" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="pkgCategory">
+                <option value="">Select category</option>
+                <option>Electronics</option>
+                <option>Clothing</option>
+                <option>Food & Grocery</option>
+                <option>Documents</option>
+                <option>Furniture</option>
+                <option>Medical</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Delivery Priority</label>
+              <select id="pkgPriority">
+                <option value="standard">Standard (3-5 days)</option>
+                <option value="express">Express (1-2 days)</option>
+                <option value="same-day">Same Day</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section-title">📍 Pickup Address</div>
+          <div class="form-group">
+            <label>Street Address</label>
+            <input type="text" id="pickupStreet" placeholder="123 Main Street" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="pickupCity" placeholder="City" />
+            </div>
+            <div class="form-group">
+              <label>PIN Code</label>
+              <input type="text" id="pickupPin" placeholder="PIN" />
+            </div>
+          </div>
+
+          <div class="form-section-title">🏁 Delivery Address</div>
+          <div class="form-group">
+            <label>Street Address</label>
+            <input type="text" id="dropStreet" placeholder="456 Park Avenue" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="dropCity" placeholder="City" />
+            </div>
+            <div class="form-group">
+              <label>PIN Code</label>
+              <input type="text" id="dropPin" placeholder="PIN" />
+            </div>
+          </div>
+
+          <div class="form-section-title">👤 Recipient</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="recipientName" placeholder="Recipient name" />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="recipientPhone" placeholder="+91 XXXXX XXXXX" />
+            </div>
+          </div>
+
+          <div class="ai-estimate-box" id="estimateBox" style="display:none">
+            <div class="ai-label">🤖 AI Estimate</div>
+            <div id="estimateContent"></div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-secondary" onclick="estimateOrder()">🤖 Get AI Estimate</button>
+            <button class="btn-primary" onclick="placeOrder()">Place Order ➡️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: TRACK ===== -->
+    <div class="page" id="page-track">
+      <div class="page-inner">
+        <h2 class="page-h2">Track Your Order</h2>
+        <div class="track-search-bar">
+          <input type="text" id="trackInput" placeholder="Enter Order ID (e.g. SD-1042)" />
+          <button onclick="trackOrder()">Track 🔍</button>
+        </div>
+
+        <div id="trackResult" class="track-result hidden">
+          <div class="track-header">
+            <div>
+              <div class="track-id" id="trackOrderId"></div>
+              <div class="track-pkg" id="trackPkgName"></div>
+            </div>
+            <div class="status-badge" id="trackStatus"></div>
+          </div>
+
+          <div class="track-map-placeholder">
+            <div class="map-anim">
+              <div class="map-dot" id="mapDot"></div>
+              <div class="map-path"></div>
+              <div class="map-from">📍 Pickup</div>
+              <div class="map-to">🏁 Drop</div>
+            </div>
+            <div class="map-eta" id="mapEta"></div>
+          </div>
+
+          <div class="timeline" id="trackTimeline"></div>
+        </div>
+
+        <div id="trackError" class="track-error hidden">
+          ❌ Order not found. Please check the ID.
+        </div>
+
+        <div class="section-title" style="margin-top:2rem">Recent Orders</div>
+        <div id="recentOrdersList" class="delivery-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: HISTORY ===== -->
+    <div class="page" id="page-history">
+      <div class="page-inner">
+        <h2 class="page-h2">Order History</h2>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterHistory('all',this)">All</button>
+          <button class="filter-btn" onclick="filterHistory('delivered',this)">Delivered</button>
+          <button class="filter-btn" onclick="filterHistory('transit',this)">In Transit</button>
+          <button class="filter-btn" onclick="filterHistory('pending',this)">Pending</button>
+        </div>
+        <div id="historyList" class="delivery-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: AI ASSISTANT ===== -->
+    <div class="page" id="page-ai">
+      <div class="page-inner">
+        <h2 class="page-h2">🤖 AI Delivery Assistant</h2>
+        <div class="ai-chat-container">
+          <div class="ai-chat-messages" id="chatMessages">
+            <div class="ai-msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-bubble">Hi! I'm your SwiftDrop AI assistant. I can help you:<br><br>
+              • Track orders & get updates<br>
+              • Estimate delivery costs<br>
+              • Find best delivery options<br>
+              • Answer any delivery questions!<br><br>
+              What can I do for you today?</div>
+            </div>
+          </div>
+          <div class="quick-prompts">
+            <button onclick="sendQuickPrompt('Where is my order?')">📍 Where is my order?</button>
+            <button onclick="sendQuickPrompt('What is the cheapest delivery option?')">💰 Cheapest option?</button>
+            <button onclick="sendQuickPrompt('How do I cancel an order?')">❌ Cancel order</button>
+            <button onclick="sendQuickPrompt('What items are not allowed?')">🚫 Prohibited items</button>
+          </div>
+          <div class="ai-chat-input">
+            <input type="text" id="chatInput" placeholder="Ask anything about your delivery..." onkeydown="if(event.key==='Enter')sendChat()" />
+            <button onclick="sendChat()">Send ✈️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: PROFILE ===== -->
+    <div class="page" id="page-profile">
+      <div class="page-inner">
+        <h2 class="page-h2">My Profile</h2>
+        <div class="profile-card">
+          <div class="profile-avatar-big">JD</div>
+          <div class="profile-info">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="profName" value="John Doe" />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="profEmail" value="john.doe@email.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="profPhone" value="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label>Member Since</label>
+                <input type="text" value="January 2024" disabled />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Default Address</label>
+              <input type="text" id="profAddress" value="123 Main Street, Mumbai, 400001" />
+            </div>
+
+            <div class="form-section-title">Preferences</div>
+            <div class="pref-toggles">
+              <label class="toggle-label">
+                <span>SMS Notifications</span>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+              </label>
+              <label class="toggle-label">
+                <span>Email Updates</span>
+                <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+              </label>
+              <label class="toggle-label">
+                <span>AI Suggestions</span>
+                <div class="toggle" onclick="this.classList.toggle('active')"></div>
+              </label>
+            </div>
+
+            <button class="btn-primary" style="margin-top:1.5rem" onclick="saveProfile()">Save Changes ✅</button>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:2rem">Saved Addresses</div>
+        <div class="saved-addresses" id="savedAddresses"></div>
+        <button class="btn-secondary" style="margin-top:1rem" onclick="addAddress()">➕ Add Address</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SUCCESS TOAST -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ai.js"></script>
+</body>
+</html>
